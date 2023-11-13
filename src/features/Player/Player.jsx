@@ -1,8 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import { usePlayer } from "../hook/usePlayer";
+import "./Player.css"
 
 const Player = () => {
-  const { playing, currentSong, onPlay, onPause, onNext, onPrev } = usePlayer();
+  const {
+    playing,
+    currentSong,
+    onPlay,
+    onPause,
+    onNext,
+    onPrev,
+    onShuffle,
+    onLoop,
+  } = usePlayer();
+
   const audioRef = useRef();
 
   // làm thế nào truy cập được thẻ audio
@@ -16,17 +27,21 @@ const Player = () => {
     }
   }, [playing, currentSong]);
 
-
   return (
-    <div>
+    <div className="player-wrap">
       <audio src={currentSong.src} ref={audioRef} />
 
       <h1>{currentSong.title}</h1>
       <p>{currentSong.artist}</p>
       <div>
+        <input type="range"  max={currentSong.duration} />
+        <button onClick={onShuffle}>Shuffle</button>
         <button onClick={onPrev}>Prev</button>
-        <button onClick={playing ? onPause : onPlay}>{playing ? 'Pause' : 'Play'}</button>
+        <button onClick={playing ? onPause : onPlay}>
+          {playing ? "Pause" : "Play"}
+        </button>
         <button onClick={onNext}>Next</button>
+        <button onClick={onLoop}>Loop</button>
       </div>
     </div>
   );

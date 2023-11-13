@@ -35,6 +35,7 @@ export const playerReducer = (state, action) => {
       return {
         ...state,
         currentSongIndex: nextSongIndex,
+        playing: true,
       };
     }
     case PLAYER.PREV: {
@@ -45,6 +46,32 @@ export const playerReducer = (state, action) => {
       return {
         ...state,
         currentSongIndex: prevSongIndex,
+        playing: true,
+      };
+    }
+    case PLAYER.SHUFFLE: {
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * song.length);
+      } while (randomIndex === state.currentSongIndex);
+      return {
+        ...state,
+        currentSongIndex: randomIndex,
+        playing: true,
+      };
+    }
+    case PLAYER.LOOP: {
+      const isSongEnd = state.currentTime >= action.payload;
+      if (state.loop && isSongEnd) {
+        return {
+          ...state,
+          currentTime: 0,
+        };
+      }
+      return {
+        ...state,
+        playing: true,
+        loop: true,
       };
     }
 

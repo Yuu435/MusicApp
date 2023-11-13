@@ -19,9 +19,14 @@ export const usePlayer = () => {
     const handlePrev = () => {
         dispatch({ type: PLAYER.PREV })
     }
+    const handleShuffle = ()=>{
+        dispatch({ type: PLAYER.SHUFFLE})
+    }
+    const handleLoop = () =>{
+        dispatch({type: PLAYER.LOOP, payload: song.duration})
+    }
     const currentSong = song[state.currentSongIndex]
-
-
+  
 
     return {
         ...state,
@@ -30,5 +35,7 @@ export const usePlayer = () => {
         onPause: handlePause,
         onNext: handleNext,
         onPrev: handlePrev,
+        onShuffle: handleShuffle,
+        onLoop: handleLoop,
     }
 }
